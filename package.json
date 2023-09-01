@@ -1,0 +1,23 @@
+{
+  "name": "workforce-pool-sdk-testing",
+  "version": "0.0.0",
+  "description": "Testing workforce pools with cloud SDKs",
+  "author": "Google",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "axios": "^1.5.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "keytar": "^7.9.0",
+    "node-fetch": "^2.6.1",
+    "open": "^8.0.8"
+  },
+  "scripts": {
+    "start-login": "node login/"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

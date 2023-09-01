@@ -1,0 +1,10 @@
+
+{
+  "clientId": "0oa11grk7bvdO24gF0h8",
+  "clientSecret": "",
+  "authUri": "https://dev-458421.oktapreview.com/oauth2/default/v1/authorize",
+  "tokenUri": "https://dev-458421.oktapreview.com/oauth2/default/v1/token",
+  "revokeUri": "https://dev-458421.oktapreview.com/oauth2/default/v1/revoke",
+  "logoutUri": "https://dev-458421.oktapreview.com/oauth2/default/v1/logout",
+  "successUri": "https://dev-458421.oktapreview.com/app/UserHome"
+}

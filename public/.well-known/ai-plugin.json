@@ -1,0 +1,17 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "Google Cloud Projects List",
+    "name_for_model": "gcp_projects_list_with_auth",
+    "description_for_human": "API for Google Cloud Projects List with Auth",
+    "description_for_model": "This plugin provides APIs for getting the Google Cloud Projects list for the user, as well as getting the necessary access token that is used when getting the projects list. The whole flow is like this:\n1. Get the IDP token for the user through the API /idptoken;\n2. Call /gcpaccesstoken to get the Google Cloud access token, which will be used as a bearer header in the /gcpprojects call;\n3. Call /gcpprojects to get the list of projects for the user.",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+        "type": "openapi",
+        "url": "http://localhost:5000/openapi.yaml"
+    },
+    "logo_url": "http://localhost:5000/logo.png",
+    "contact_email": "support@example.com",
+    "legal_info_url": "http://www.example.com/legal"
+}

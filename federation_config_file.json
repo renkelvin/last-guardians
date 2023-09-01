@@ -1,0 +1,10 @@
+{
+  "type": "external_account",
+  "audience": "//iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/providers/saml-okta",
+  "subject_token_type": "urn:ietf:params:oauth:token-type:saml2",
+  "token_url": "https://sts.googleapis.com/v1/token",
+  "credential_source": {
+    "file": "/Users/wuyanna/workforce-pool-sdk-testing/samlresponse.txt"
+  },
+  "workforce_pool_user_project": "307586025878"
+}

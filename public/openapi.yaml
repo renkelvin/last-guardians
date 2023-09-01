@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: Google Cloud User Access Token Retrieval and GCP API
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+paths:
+  /idptoken:
+    get:
+      summary: Returns a new ID token form the IDP for the logged-in user.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id_token:
+                    type: string
+                  error:
+                    type: string
+      tags:
+        - Authentication
+  /gcpaccesstoken:
+    get:
+      summary: Exchanges an input token for a GCP access token.
+      parameters:
+        - name: input_token
+          in: query
+          description: The input token to exchange for a GCP access token.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  error:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+      tags:
+        - GCP Access Token
+  /gcpprojects:
+    get:
+      summary: Retrieves a list of GCP projects using the `resourcemanager.googleapis.com/projects` API.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      type: string
+                  error:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+      security:
+        - BearerAuth: []
+      tags:
+        - GCP Projects
+securitySchemes:
+  BearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT

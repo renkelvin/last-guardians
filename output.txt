@@ -1,0 +1,336 @@
+auditConfigs:
+- auditLogConfigs:
+  - logType: ADMIN_READ
+  - logType: DATA_READ
+  - logType: DATA_WRITE
+  service: sts.googleapis.com
+- auditLogConfigs:
+  - logType: ADMIN_READ
+  service: notebooks.googleapis.com
+- auditLogConfigs:
+  - logType: DATA_READ
+  service: apigee.googleapis.com
+- auditLogConfigs:
+  - logType: DATA_WRITE
+  service: binaryauthorization.googleapis.com
+- auditLogConfigs:
+  - logType: ADMIN_READ
+  - logType: DATA_READ
+  - logType: DATA_WRITE
+  service: iam.googleapis.com
+- auditLogConfigs:
+  - logType: ADMIN_READ
+  - logType: DATA_READ
+  - logType: DATA_WRITE
+  service: storage.googleapis.com
+bindings:
+- members:
+  - user:agdabholkar@google.com
+  - user:ajaybgunjal@google.com
+  - user:rskang@google.com
+  - user:wuyanna@google.com
+  role: roles/accesscontextmanager.policyAdmin
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/*
+  role: roles/bigquery.admin
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  role: roles/bigtable.user
+- members:
+  - domain:workforcepoolstestorg.joonix.net
+  - user:rskang@google.com
+  role: roles/billing.creator
+- members:
+  - user:suryagora@google.com
+  role: roles/billing.projectManager
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk14/subject/larrypage
+  - principal://iam.googleapis.com/locations/global/workforcePools/xfchen-1/subject/117743854172617096545
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk14/group/rVxP7wamKn9gXrJiR3Bj20FGoGf2seBQ:ALL
+    USERS
+  role: roles/browser
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/haoting-testing-2/subject/haotingc@byoid.goog
+  - principal://iam.googleapis.com/locations/global/workforcePools/haoting-testing-2/subject/haotingcgroup@byoid.com
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  - user:suryagora@google.com
+  role: roles/cloudasset.viewer
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  role: roles/cloudsql.admin
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  role: roles/compute.admin
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/xfchen-1/subject/117743854172617096545
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/elysium-ubermint/*
+  - user:agdabholkar@google.com
+  - user:ajaybgunjal@google.com
+  - user:bohengy@google.com
+  - user:dannver@workforcepoolstestorg.joonix.net
+  - user:haotingc@google.com
+  - user:leosiracusa@google.com
+  - user:xfchen@google.com
+  role: roles/editor
+- members:
+  - serviceAccount:will-test@wf-pools-testing.iam.gserviceaccount.com
+  role: roles/iam.denyAdmin
+- members:
+  - serviceAccount:will-test@wf-pools-testing.iam.gserviceaccount.com
+  - user:pezhang@google.com
+  role: roles/iam.denyReviewer
+- members:
+  - serviceAccount:dannver-testing-sa@wf-pools-testing.iam.gserviceaccount.com
+  - serviceAccount:latchkey-multiorg-ephemeral-custom-automation@system.gserviceaccount.com
+  - user:ViserysSnow.831361@gmail.com
+  role: roles/iam.organizationRoleAdmin
+- members:
+  - serviceAccount:gcloud-test@promagcloudproject.iam.gserviceaccount.com
+  role: roles/iam.securityReviewer
+- members:
+  - user:suryagora@google.com
+  role: roles/iam.serviceAccountAdmin
+- members:
+  - user:suryagora@google.com
+  role: roles/iam.serviceAccountKeyAdmin
+- members:
+  - serviceAccount:elysium-ubermint-service-accou@elysium-ubermint-testing.iam.gserviceaccount.com
+  - serviceAccount:gcloud-test@promagcloudproject.iam.gserviceaccount.com
+  - user:promar@google.com
+  role: roles/iam.serviceAccountTokenCreator
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk14/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk15/*
+  role: roles/iam.serviceAccountUser
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/rk-testing-pool/subject/abc
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/crm-cloud-console-pool-001/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/rk-testing-pool-sts/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/rk-testing-pool/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/rk-testing-pool/attribute.custom/
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/rk-testing-pool/group/
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/*
+  - serviceAccount:elysium-ubermint-service-accou@elysium-ubermint-testing.iam.gserviceaccount.com
+  - serviceAccount:gcloud-test@promagcloudproject.iam.gserviceaccount.com
+  - serviceAccount:pool-test-1@cicpclientproj.iam.gserviceaccount.com
+  - serviceAccount:staging-test@wf-pools-testing.iam.gserviceaccount.com
+  - serviceAccount:wf-pools-prober@wf-pools-probers.iam.gserviceaccount.com
+  - serviceAccount:wf-pools-test-service-account2@wf-pools-testing.iam.gserviceaccount.com
+  - serviceAccount:wf-pools-test-service-account@wf-pools-testing.iam.gserviceaccount.com
+  - user:aarushia@google.com
+  - user:agdabholkar@google.com
+  - user:ajaybgunjal@google.com
+  - user:anakata@google.com
+  - user:bohengy@google.com
+  - user:chuanr@google.com
+  - user:dannver@workforcepoolstestorg.joonix.net
+  - user:dducharme@cloudadvocacyorg.joonix.net
+  - user:haotingc@google.com
+  - user:leosiracusa@google.com
+  - user:ningning@google.com
+  - user:oskulkarni@google.com
+  - user:pezhang@google.com
+  - user:promar@google.com
+  - user:ryankohler@google.com
+  - user:simba.bigquery.mgr@gmail.com
+  - user:suryagora@google.com
+  - user:viveksacharya@google.com
+  - user:wuyanna@google.com
+  role: roles/iam.workforcePoolAdmin
+- members:
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/cookiesigninpool/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/rk-testing-pool/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/shamali-cert-test/*
+  role: roles/iam.workforcePoolViewer
+- members:
+  - serviceAccount:pool-test-1@cicpclientproj.iam.gserviceaccount.com
+  role: roles/iam.workloadIdentityPoolAdmin
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  role: roles/iam.workloadIdentityUser
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/cookiesigninpool/subject/tester@byoid.goog
+  role: roles/identityplatform.admin
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  - user:haotingc@google.com
+  - user:pezhang@google.com
+  - user:rskang@google.com
+  - user:shahsun@google.com
+  - user:wuyanna@google.com
+  role: roles/logging.admin
+- members:
+  - group:cloud-audit-log-reviewers@google.com
+  - user:ViserysSnow.831361@gmail.com
+  - user:agdabholkar@google.com
+  role: roles/logging.privateLogViewer
+- members:
+  - group:cloud-audit-log-reviewers@google.com
+  - user:agdabholkar@google.com
+  - user:dannver@google.com
+  - user:mengcheng@google.com
+  - user:pezhang@google.com
+  role: roles/logging.viewer
+- members:
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/elysium-ubermint/*
+  - user:eitzman@google.com
+  - user:rskang@google.com
+  - user:wuyanna@google.com
+  role: roles/orgpolicy.policyAdmin
+- members:
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/crm-cloud-console-pool-001/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/elysium-ubermint/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/pool-10/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/rk-saml-testing-pool/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/rk-test-pool/*
+  - user:ajaybgunjal@google.com
+  - user:anakata@google.com
+  - user:haotingc@google.com
+  - user:jainpranjal@google.com
+  - user:mengcheng@google.com
+  - user:pezhang@google.com
+  - user:promar@google.com
+  - user:rskang@google.com
+  - user:shahsun@google.com
+  - user:wuyanna@google.com
+  - user:xfchen@google.com
+  role: roles/owner
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk14/group/admin-test
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk15/group/admin-test
+  role: roles/pubsub.viewer
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  role: roles/recaptchaenterprise.admin
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  role: roles/redis.admin
+- members:
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/cookiesigninpool/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/crm-cloud-console-pool-001/*
+  role: roles/resourcemanager.folderAdmin
+- members:
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/crm-cloud-console-pool-001/*
+  - user:wuyanna@google.com
+  role: roles/resourcemanager.folderCreator
+- members:
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/crm-cloud-console-pool-001/*
+  role: roles/resourcemanager.folderEditor
+- members:
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/crm-cloud-console-pool-001/*
+  - serviceAccount:latchkey-multiorg-ephemeral-iam-automation@system.gserviceaccount.com
+  - user:ViserysSnow.831361@gmail.com
+  - user:aarushia@google.com
+  - user:agdabholkar@google.com
+  - user:ajaybgunjal@google.com
+  - user:anakata@google.com
+  - user:bohengy@google.com
+  - user:breno@google.com
+  - user:cakebread@google.com
+  - user:camann@google.com
+  - user:chuanr@google.com
+  - user:chujn@google.com
+  - user:cpisunyer@google.com
+  - user:dannver@workforcepoolstestorg.joonix.net
+  - user:eitzman@google.com
+  - user:gaagrawal@google.com
+  - user:halzoubi@google.com
+  - user:haotingc@google.com
+  - user:haotingota1@gmail.com
+  - user:jainpranjal@google.com
+  - user:leosiracusa@google.com
+  - user:mengcheng@google.com
+  - user:oskulkarni@google.com
+  - user:pezhang@google.com
+  - user:promar@google.com
+  - user:qiqihu@google.com
+  - user:rskang@google.com
+  - user:ruishen@google.com
+  - user:ryankohler@google.com
+  - user:shahsun@google.com
+  - user:suryagora@google.com
+  - user:wuyanna@google.com
+  - user:xfchen@google.com
+  role: roles/resourcemanager.organizationAdmin
+- members:
+  - user:jjlee@google.com
+  - user:nitian@google.com
+  role: roles/resourcemanager.organizationViewer
+- members:
+  - domain:workforcepoolstestorg.joonix.net
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/crm-cloud-console-pool-001/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/elysium-ubermint/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/leo-test-pool/*
+  - user:agdabholkar@google.com
+  - user:ajaybgunjal@google.com
+  - user:pezhang@google.com
+  - user:promar@google.com
+  - user:rskang@google.com
+  - user:suryagora@google.com
+  - user:wuyanna@google.com
+  role: roles/resourcemanager.projectCreator
+- members:
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/crm-cloud-console-pool-001/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/elysium-ubermint/*
+  role: roles/resourcemanager.projectDeleter
+- members:
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/crm-cloud-console-pool-001/*
+  - user:suryagora@google.com
+  role: roles/resourcemanager.projectIamAdmin
+- members:
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/crm-cloud-console-pool-001/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/elysium-ubermint/*
+  role: roles/resourcemanager.projectMover
+- members:
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/elysium-ubermint/*
+  role: roles/servicemanagement.admin
+- members:
+  - user:ViserysSnow.831361@gmail.com
+  - user:haotingc@google.com
+  - user:jjlee@google.com
+  - user:nitian@google.com
+  - user:promar@google.com
+  - user:rskang@google.com
+  role: roles/servicemanagement.quotaAdmin
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/cookiesigninpool/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/elysium-ubermint/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/wf-pool-test-omkar/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk14/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk15/*
+  - user:ningning@google.com
+  role: roles/serviceusage.serviceUsageAdmin
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/haoting-testing-2/subject/haotingcgroup@byoid.com
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/elysium-ubermint/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/shamali-cert-test/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/*
+  role: roles/serviceusage.serviceUsageConsumer
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/cookiesigninpool/subject/tester@byoid.goog
+  - principal://iam.googleapis.com/locations/global/workforcePools/haoting-testing-2/subject/109756091474552627167
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk14/subject/larrypage@example.com
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk15/subject/larrypage@example.com
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/wf-pool-test-omkar/*
+  role: roles/storage.admin
+- members:
+  - principal://iam.googleapis.com/locations/global/workforcePools/cookiesigninpool/subject/tester@byoid.goog
+  - principal://iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk/subject/tester@byoid.goog
+  role: roles/storage.objectAdmin
+- members:
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/cookiesigninpool/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/rk-testing-pool-sts/*
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/rk-testing-pool/*
+  role: roles/storage.objectViewer
+- members:
+  - group:cloud-audit-log-reviewers@google.com
+  - principalSet://iam.googleapis.com/locations/global/workforcePools/shamali-cert-test/*
+  role: roles/viewer
+etag: BwXy9QlzJsI=
+version: 1

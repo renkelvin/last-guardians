@@ -1,0 +1,10 @@
+
+{
+  "clientId": "$CLIENT_ID_GOES_HERE",
+  "clientSecret": "$CLIENT_SECRET_GOES_HERE",
+  "authUri": "https://accounts.google.com/o/oauth2/v2/auth",
+  "tokenUri": "https://oauth2.googleapis.com/token",
+  "revokeUri": "https://oauth2.googleapis.com/revoke",
+  "logoutUri": "https://accounts.google.com/logout",
+  "successUri": "https://developers.google.com/identity/protocols/oauth2/native-app"
+}
