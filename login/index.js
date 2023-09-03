@@ -10,12 +10,17 @@ const oauthConfigJson = require('../oauth-config.json');
 const app = express();
 const cors = require('cors');
 const axios = require('axios');
+const crypto = require('crypto');
+
 // The host for the local server.
 const HOST = 'localhost';
 // The port for the local server.
 const PORT = 5000;
 // The identifier used to key the keytar-stored refresh token.
 const APP_ID = 'WorkforcePoolTesting';
+
+// In-memory storage for hashed access tokens and their corresponding real access tokens.
+const tokenMap = new Map();
 
 // cors is needed for chatgpt to find the manifest file hosted by this server.
 const corsOptions = {
@@ -25,6 +30,15 @@ app.use(cors(corsOptions));
 
 // Serve static files from the public directory. /.well-known/ai-plugin.json & /openapi.yaml
 app.use(express.static('public'));
+
+// Middleware to parse JSON in the request body.
+app.use(express.json());
+
+// Middleware to log requests.
+app.use((req, res, next) => {
+  console.log(`Received ${req.method} request to ${req.url} with body ${JSON.stringify(req.body)}`);
+  next();
+});
 
 
 /**
@@ -100,11 +114,17 @@ function startMetadataServer(client) {
     }
   });
 
-
+  // Add an interceptor to log the request details.
+  axios.interceptors.request.use((config) => {
+    console.log(`Making request to ${config.url}:`);
+    console.log(`Method: ${config.method}`);
+    console.log(`Headers: ${JSON.stringify(config.headers, null, 2)}`);
+    console.log(`Body: ${JSON.stringify(config.data, null, 2)}`);
+    return config;
+  });
 
   /**
-   * Exchanges an input token for a GCP access token using the
-   * `securitytoken.googleapis.com/token` endpoint.
+   * Exchanges an input token for a hashed GCP access token and stores the hashed token locally.
    *
    * @param {Object} req - The request object.
    * @param {Object} req.query - The query object containing the `input_token` parameter.
@@ -146,43 +166,52 @@ function startMetadataServer(client) {
         }
       );
       const accessToken = response.data.access_token;
-      res.status(200).json({ access_token: accessToken });
+      // Hash the access token.
+      const hashedToken = crypto.createHash('sha256').update(accessToken).digest('hex');
+      // Store the hashed token and its corresponding real access token in local storage.
+      tokenMap.set(hashedToken, accessToken);
+      res.status(200).json({ access_token: hashedToken });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
   });
 
   /**
- * Retrieves a list of GCP projects using the `resourcemanager.googleapis.com/projects` API.
- *
- * @param {Object} req - The request object.
- * @param {Object} req.headers - The request headers containing the `Authorization` header with the input access token.
- * @param {string} req.headers.authorization - The `Authorization` header with the input access token.
- * @param {Object} res - The response object.
- * @returns {Promise<void>} - A Promise that resolves when the response is sent.
- */
-app.get('/gcpprojects', async (req, res) => {
-  const accessToken = req.headers.authorization.split(' ')[1];
-  if (!accessToken) {
-    res.status(401).json({ error: 'Missing access token.' });
-    return;
-  }
+   * Retrieves a list of GCP projects using the `resourcemanager.googleapis.com/projects` API.
+   *
+   * @param {Object} req - The request object.
+   * @param {string} req.body.access_token - The input access token.
+   * @param {Object} res - The response object.
+   * @returns {Promise<void>} - A Promise that resolves when the response is sent.
+   */
+  app.post('/gcpprojects', async (req, res) => {
+    const hashedToken = req.body?.access_token;
+    if (!hashedToken) {
+      res.status(400).json({ error: 'Missing access token.' });
+      return;
+    }
 
-  try {
-    const response = await axios.get(
-      'https://cloudresourcemanager.googleapis.com/v3/projects',
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    const projects = response.data.projects.map((project) => project.projectId);
-    res.status(200).json({ projects });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+    // Retrieve the real access token from local storage using the hashed token.
+    const realToken = tokenMap.get(hashedToken);
+    if (!realToken) {
+      res.status(400).json({ error: 'Invalid access token.' });
+      return;
+    }
+    try {
+      const response = await axios.get(
+        'https://cloudresourcemanager.googleapis.com/v1/projects',
+        {
+          headers: {
+            Authorization: `Bearer ${realToken}`,
+          },
+        }
+      );
+      const projects = response.data.projects.map((project) => project.projectId);
+      res.status(200).json({ projects });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  });
   // Expose an endpoint to logout the current session.
   // This will revoke and clear the stored refresh token and also
   // redirect the browser to the logout URL logging the user out

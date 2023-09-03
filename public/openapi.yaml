@@ -7,6 +7,7 @@ servers:
 paths:
   /idptoken:
     get:
+      operationId: idptoken
       summary: Returns a new ID token form the IDP for the logged-in user.
       responses:
         '200':
@@ -24,6 +25,7 @@ paths:
         - Authentication
   /gcpaccesstoken:
     get:
+      operationId: gcpaccesstoken
       summary: Exchanges an input token for a GCP access token.
       parameters:
         - name: input_token
@@ -56,8 +58,17 @@ paths:
       tags:
         - GCP Access Token
   /gcpprojects:
-    get:
+    post:
+      operationId: gcpprojects
       summary: Retrieves a list of GCP projects using the `resourcemanager.googleapis.com/projects` API.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: access_token
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -90,12 +101,5 @@ paths:
                 properties:
                   error:
                     type: string
-      security:
-        - BearerAuth: []
       tags:
         - GCP Projects
-securitySchemes:
-  BearerAuth:
-    type: http
-    scheme: bearer
-    bearerFormat: JWT
