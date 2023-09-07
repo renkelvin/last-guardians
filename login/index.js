@@ -142,7 +142,8 @@ function startMetadataServer(client) {
     const audience = '//iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk14/providers/okta-oidc-provider';
     const grantType = 'urn:ietf:params:oauth:grant-type:token-exchange';
     const requestedTokenType = 'urn:ietf:params:oauth:token-type:access_token';
-    const scope = 'https://www.googleapis.com/auth/cloud-platform';
+    const scope = "https://www.googleapis.com/auth/cloud-platform";
+    // const scope = "https://www.googleapis.com/auth/bigquery.readonly";
     const subjectTokenType = 'urn:ietf:params:oauth:token-type:id_token';
     const subjectToken = inputToken;
     const options = { userProject: '307586025878' };
@@ -228,6 +229,56 @@ function startMetadataServer(client) {
     } catch (error) {
       res.status(500);
       res.send(error.message);
+    }
+  });
+
+  /**
+   * Returns the dataset specified by datasetID.
+   *
+   * @param {Object} req - The request object.
+   * @param {string} req.params.projectId - The Project ID of the requested dataset.
+   * @param {string} req.params.datasetId - The Dataset ID of the requested dataset.
+   * @param {Object} res - The response object.
+   * @returns {Promise<void>} - A Promise that resolves when the response is sent.
+   */
+  // app.get("/bigquery/:projectId/datasets/:datasetId", async (req, res) => {
+  app.post("/bigquery", async (req, res) => {
+    console.log("!!!!! bigquery");
+    const { access_token, projectId, datasetId } = req.body;
+
+    if (!access_token) {
+      res.status(400).json({ error: "Missing access token." });
+      return;
+    }
+
+    // Retrieve the real access token from local storage using the hashed token.
+    const realToken = tokenMap.get(access_token);
+    // const realToken = tokenMap.get(tokenMap.keys().next().value);
+    console.log(realToken);
+    if (!realToken) {
+      res.status(400).json({ error: "Invalid access token." });
+      return;
+    }
+
+    const token =
+      "ya29.a0AfB_byCNzWIyIhNKDyrLGfHORgFiEZsP7RExSxefVd09rAQewdAL3vIw1ZPCM8pfqrY3kMgau7EO2qhvmuuoYHwuqyaFaPJU3wrvHihOKuwttB0FjRvdo6WYSE187wEzye7uYXiLA_CJratHlMUvwR3evWRFWL56QlTx-Ng-nI9vl2QeaCgYKAZgSARISFQHsvYlsuaDbXuDRZetLnEUElHPk1A0183";
+
+    try {
+      const url = `https://bigquery.googleapis.com/bigquery/v2/projects/${projectId}/datasets/${datasetId}`
+      const response = await axios.get(
+        url,
+        {
+          headers: {
+            // Authorization: `Bearer ${realToken}`,
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("!!!!! response: ", response);
+      const dataset = response.data;
+      res.status(200).json({ dataset });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
     }
   });
 }

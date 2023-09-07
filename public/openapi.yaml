@@ -103,3 +103,72 @@ paths:
                     type: string
       tags:
         - GCP Projects
+  /bigquery:
+    post:
+      operationId: bigqueryDatasetsGet
+      summary: Returns the dataset specified by projectID anddatasetID.
+      parameters:
+        - name: access_token
+          in: body
+          required: true
+          schema:
+            type: string
+        - name: projectId
+          in: body
+          description: Required. Project ID of the requested dataset.
+          required: true
+          schema:
+            type: string
+        - name: datasetId
+          in: body
+          description: Required. Dataset ID of the requested dataset.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+      tags:
+        - BigQuery
+components:
+  schemas:
+    Dataset:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
