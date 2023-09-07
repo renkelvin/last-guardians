@@ -103,6 +103,52 @@ paths:
                     type: string
       tags:
         - GCP Projects
+  /securityconsult:
+    post:
+      operationId: securityconsult
+      summary: Consult if a given request/query is secure and provide security expert advice.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: query_content
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      type: string
+                  error:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+      tags:
+        - GCP Projects
   /bigquery:
     post:
       operationId: bigqueryDatasetsGet

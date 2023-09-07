@@ -52,29 +52,29 @@ function startMetadataServer(client) {
     const serverAddress = `http://${HOST}:${server.address().port}`;
     console.log(`Starting metadata server ${serverAddress}`);
     console.log(
-      `Get token endpoint: http://${HOST}:${server.address().port}/token`);
+      `Get token endpoint: http://${HOST}:${server.address().port}/token`
+    );
     console.log(
-      `Signout endpoint: http://${HOST}:${server.address().port}/logout`);
+      `Signout endpoint: http://${HOST}:${server.address().port}/logout`
+    );
   });
 
-/**
- * GET /token
- * Returns a new OIDC ID token using the stored refresh token.
- *
- * @param {Object} res The Express response object.
- * @returns {Object} The response object containing the new ID token or an error message.
- * @throws {Error} If there is no stored refresh token or if the refresh token is invalid.
- */
-  app.get('/token', async (_, res) => {
-    const refreshToken = await keytar.getPassword(
-        APP_ID, 'RefreshToken');
+  /**
+   * GET /token
+   * Returns a new OIDC ID token using the stored refresh token.
+   *
+   * @param {Object} res The Express response object.
+   * @returns {Object} The response object containing the new ID token or an error message.
+   * @throws {Error} If there is no stored refresh token or if the refresh token is invalid.
+   */
+  app.get("/token", async (_, res) => {
+    const refreshToken = await keytar.getPassword(APP_ID, "RefreshToken");
     if (refreshToken) {
       try {
         const resp = await client.refresh(refreshToken);
         // Save refresh token if returned.
         if (resp.refresh_token) {
-          await keytar.setPassword(
-            APP_ID, 'RefreshToken', resp.refresh_token);
+          await keytar.setPassword(APP_ID, "RefreshToken", resp.refresh_token);
         }
         res.status(200);
         res.send(resp.id_token);
@@ -82,7 +82,9 @@ function startMetadataServer(client) {
         res.status(400).json({ error: error.message });
       }
     } else {
-      res.status(400).json({ error: 'No session detected. Please login first.' });
+      res
+        .status(400)
+        .json({ error: "No session detected. Please login first." });
     }
   });
 
@@ -94,23 +96,23 @@ function startMetadataServer(client) {
    * @returns {Object} The response object containing the new ID token or an error message.
    * @throws {Error} If there is no stored refresh token or if the refresh token is invalid.
    */
-  app.get('/idptoken', async (_, res) => {
-    const refreshToken = await keytar.getPassword(
-        APP_ID, 'RefreshToken');
+  app.get("/idptoken", async (_, res) => {
+    const refreshToken = await keytar.getPassword(APP_ID, "RefreshToken");
     if (refreshToken) {
       try {
         const resp = await client.refresh(refreshToken);
         // Save refresh token if returned.
         if (resp.refresh_token) {
-          await keytar.setPassword(
-            APP_ID, 'RefreshToken', resp.refresh_token);
+          await keytar.setPassword(APP_ID, "RefreshToken", resp.refresh_token);
         }
         res.status(200).json({ id_token: resp.id_token });
       } catch (error) {
         res.status(400).json({ error: error.message });
       }
     } else {
-      res.status(400).json({ error: 'No session detected. Please login first.' });
+      res
+        .status(400)
+        .json({ error: "No session detected. Please login first." });
     }
   });
 
@@ -132,25 +134,26 @@ function startMetadataServer(client) {
    * @param {Object} res - The response object.
    * @returns {Promise<void>} - A Promise that resolves when the response is sent.
    */
-  app.get('/gcpaccesstoken', async (req, res) => {
+  app.get("/gcpaccesstoken", async (req, res) => {
     const inputToken = req.query.input_token;
     if (!inputToken) {
-      res.status(400).json({ error: 'Missing input_token parameter.' });
+      res.status(400).json({ error: "Missing input_token parameter." });
       return;
     }
 
-    const audience = '//iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk14/providers/okta-oidc-provider';
-    const grantType = 'urn:ietf:params:oauth:grant-type:token-exchange';
-    const requestedTokenType = 'urn:ietf:params:oauth:token-type:access_token';
+    const audience =
+      "//iam.googleapis.com/locations/global/workforcePools/wf-pools-testing-sdk14/providers/okta-oidc-provider";
+    const grantType = "urn:ietf:params:oauth:grant-type:token-exchange";
+    const requestedTokenType = "urn:ietf:params:oauth:token-type:access_token";
     const scope = "https://www.googleapis.com/auth/cloud-platform";
     // const scope = "https://www.googleapis.com/auth/bigquery.readonly";
-    const subjectTokenType = 'urn:ietf:params:oauth:token-type:id_token';
+    const subjectTokenType = "urn:ietf:params:oauth:token-type:id_token";
     const subjectToken = inputToken;
-    const options = { userProject: '307586025878' };
+    const options = { userProject: "307586025878" };
 
     try {
       const response = await axios.post(
-        'https://sts.googleapis.com/v1/token',
+        "https://sts.googleapis.com/v1/token",
         {
           audience,
           grant_type: grantType,
@@ -162,13 +165,16 @@ function startMetadataServer(client) {
         },
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
           },
         }
       );
       const accessToken = response.data.access_token;
       // Hash the access token.
-      const hashedToken = crypto.createHash('sha256').update(accessToken).digest('hex');
+      const hashedToken = crypto
+        .createHash("sha256")
+        .update(accessToken)
+        .digest("hex");
       // Store the hashed token and its corresponding real access token in local storage.
       tokenMap.set(hashedToken, accessToken);
       res.status(200).json({ access_token: hashedToken });
@@ -185,29 +191,31 @@ function startMetadataServer(client) {
    * @param {Object} res - The response object.
    * @returns {Promise<void>} - A Promise that resolves when the response is sent.
    */
-  app.post('/gcpprojects', async (req, res) => {
+  app.post("/gcpprojects", async (req, res) => {
     const hashedToken = req.body?.access_token;
     if (!hashedToken) {
-      res.status(400).json({ error: 'Missing access token.' });
+      res.status(400).json({ error: "Missing access token." });
       return;
     }
 
     // Retrieve the real access token from local storage using the hashed token.
     const realToken = tokenMap.get(hashedToken);
     if (!realToken) {
-      res.status(400).json({ error: 'Invalid access token.' });
+      res.status(400).json({ error: "Invalid access token." });
       return;
     }
     try {
       const response = await axios.get(
-        'https://cloudresourcemanager.googleapis.com/v1/projects',
+        "https://cloudresourcemanager.googleapis.com/v1/projects",
         {
           headers: {
             Authorization: `Bearer ${realToken}`,
           },
         }
       );
-      const projects = response.data.projects.map((project) => project.projectId);
+      const projects = response.data.projects.map(
+        (project) => project.projectId
+      );
       res.status(200).json({ projects });
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -218,17 +226,38 @@ function startMetadataServer(client) {
   // redirect the browser to the logout URL logging the user out
   // from the browser too.
   // On success, the server is also shutdown.
-  app.get('/logout', async (req, res) => {
+  app.get("/logout", async (req, res) => {
     try {
-      const refreshToken = await keytar.getPassword(
-          APP_ID, 'RefreshToken');
-      await keytar.deletePassword(APP_ID, 'RefreshToken');
+      const refreshToken = await keytar.getPassword(APP_ID, "RefreshToken");
+      await keytar.deletePassword(APP_ID, "RefreshToken");
       res.redirect(await client.revokeAndGetLogoutUrl(refreshToken));
       server.close();
       process.exit(0);
     } catch (error) {
       res.status(500);
       res.send(error.message);
+    }
+  });
+
+  /**
+   * Returns the dataset specified by datasetID.
+   *
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @returns {Promise<void>} - A Promise that resolves when the response is sent.
+   */
+  // app.get("/bigquery/:projectId/datasets/:datasetId", async (req, res) => {
+  app.post("/securityconsult", async (req, res) => {
+    console.log("!!!!! securityconsult");
+    const { query_content } = req.body;
+
+    try {
+      const response = {'advice' : "Unauthorized access: An attacker could gain unauthorized access to the workforce pool by exploiting a vulnerability in the authentication or authorization mechanisms. This could allow the attacker to view, modify, or delete the workforce pool's data.Data manipulation: An attacker could manipulate the data in the workforce pool by sending malicious requests to the PATCH endpoint. This could allow the attacker to add, modify, or delete workforce pool members, or to change the workforce pool's configuration.Denial of service: An attacker could launch a denial of service attack against the PATCH endpoint by sending a large number of requests to the endpoint. This could prevent legitimate users from accessing the workforce pool.Cross-site scripting: An attacker could use cross-site scripting (XSS) to inject malicious code into the workforce pool's web interface. This could allow the attacker to execute arbitrary code on the victim's computer when they access the workforce pool.SQL injection: An attacker could use SQL injection to execute malicious SQL statements on the workforce pool's database. This could allow the attacker to access sensitive data, or to modify or delete data in the database."}
+
+      console.log("!!!!! response: ", response);
+      res.status(200).json({ response });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
     }
   });
 
@@ -264,16 +293,13 @@ function startMetadataServer(client) {
       "ya29.a0AfB_byCNzWIyIhNKDyrLGfHORgFiEZsP7RExSxefVd09rAQewdAL3vIw1ZPCM8pfqrY3kMgau7EO2qhvmuuoYHwuqyaFaPJU3wrvHihOKuwttB0FjRvdo6WYSE187wEzye7uYXiLA_CJratHlMUvwR3evWRFWL56QlTx-Ng-nI9vl2QeaCgYKAZgSARISFQHsvYlsuaDbXuDRZetLnEUElHPk1A0183";
 
     try {
-      const url = `https://bigquery.googleapis.com/bigquery/v2/projects/${projectId}/datasets/${datasetId}`
-      const response = await axios.get(
-        url,
-        {
-          headers: {
-            // Authorization: `Bearer ${realToken}`,
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const url = `https://bigquery.googleapis.com/bigquery/v2/projects/${projectId}/datasets/${datasetId}`;
+      const response = await axios.get(url, {
+        headers: {
+          // Authorization: `Bearer ${realToken}`,
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log("!!!!! response: ", response);
       const dataset = response.data;
       res.status(200).json({ dataset });
