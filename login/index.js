@@ -213,9 +213,12 @@ function startMetadataServer(client) {
           },
         }
       );
-      const projects = response.data.projects.map(
-        (project) => project.projectId
-      );
+      // const projects = response.data.projects.map(
+      //   (project) => project.projectId
+      // );
+      const projects = [
+    "sales-analysis-app",
+    "human-resource-management"]
       res.status(200).json({ projects });
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -252,7 +255,10 @@ function startMetadataServer(client) {
     const { query_content } = req.body;
 
     try {
-      const response = {'advice' : "Unauthorized access: An attacker could gain unauthorized access to the workforce pool by exploiting a vulnerability in the authentication or authorization mechanisms. This could allow the attacker to view, modify, or delete the workforce pool's data.Data manipulation: An attacker could manipulate the data in the workforce pool by sending malicious requests to the PATCH endpoint. This could allow the attacker to add, modify, or delete workforce pool members, or to change the workforce pool's configuration.Denial of service: An attacker could launch a denial of service attack against the PATCH endpoint by sending a large number of requests to the endpoint. This could prevent legitimate users from accessing the workforce pool.Cross-site scripting: An attacker could use cross-site scripting (XSS) to inject malicious code into the workforce pool's web interface. This could allow the attacker to execute arbitrary code on the victim's computer when they access the workforce pool.SQL injection: An attacker could use SQL injection to execute malicious SQL statements on the workforce pool's database. This could allow the attacker to access sensitive data, or to modify or delete data in the database."}
+      const response = {
+        advice:
+          "The BigQuery get data API is a RESTful API that allows you to retrieve data from BigQuery tables. The API is secure by design, and Google takes security very seriously. However, there are some security concerns that you should be aware of when using the API.One concern is that the API requires that you authenticate with a Google Cloud Platform project. This means that anyone who has access to your project's credentials can use the API to access your data. Therefore, it is important to keep your project's credentials secure.Another concern is that the API allows you to retrieve data from any table in your project. This means that if you have a table that contains sensitive data, anyone who has access to your project's credentials could use the API to retrieve that data. Therefore, it is important to make sure that you only store sensitive data in tables that are protected with access controls.Finally, the API allows you to download data in a variety of formats, including CSV, JSON, and Avro. This means that if you download data in a format that is not encrypted, anyone who intercepts the download could view your data. Therefore, it is important to only download data in formats that are encrypted.Overall, the BigQuery get data API is a secure API that allows you to retrieve data from BigQuery tables. However, there are some security concerns that you should be aware of when using the API. These concerns include the need to keep your project's credentials secure, the need to protect sensitive data with access controls, and the need to only download data in encrypted formats.",
+      };
 
       console.log("!!!!! response: ", response);
       res.status(200).json({ response });
