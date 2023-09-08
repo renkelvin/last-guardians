@@ -286,29 +286,121 @@ function startMetadataServer(client) {
       return;
     }
 
-    // Retrieve the real access token from local storage using the hashed token.
-    const realToken = tokenMap.get(access_token);
-    // const realToken = tokenMap.get(tokenMap.keys().next().value);
-    console.log(realToken);
-    if (!realToken) {
-      res.status(400).json({ error: "Invalid access token." });
-      return;
-    }
+    // // Retrieve the real access token from local storage using the hashed token.
+    // const realToken = tokenMap.get(access_token);
+    // // const realToken = tokenMap.get(tokenMap.keys().next().value);
+    // console.log(realToken);
+    // if (!realToken) {
+    //   res.status(400).json({ error: "Invalid access token." });
+    //   return;
+    // }
+
+    r = {
+      kind: "bigquery#queryResponse",
+      schema: {
+        fields: [
+          {
+            name: "name",
+            type: "STRING",
+            mode: "NULLABLE",
+          },
+          {
+            name: "age",
+            type: "INTEGER",
+            mode: "NULLABLE",
+          },
+          {
+            name: "city",
+            type: "STRING",
+            mode: "NULLABLE",
+          },
+          {
+            name: "email",
+            type: "STRING",
+            mode: "NULLABLE",
+          },
+        ],
+      },
+      jobReference: {
+        projectId: "my_project",
+        jobId: "job_ABCD1234EFGH",
+      },
+      totalRows: "3",
+      rows: [
+        {
+          f: [
+            {
+              v: "John Doe",
+            },
+            {
+              v: "30",
+            },
+            {
+              v: "New York",
+            },
+            {
+              v: "john.doe@example.com",
+            },
+          ],
+        },
+        {
+          f: [
+            {
+              v: "Jane Smith",
+            },
+            {
+              v: "25",
+            },
+            {
+              v: "Los Angeles",
+            },
+            {
+              v: "jane.smith@example.com",
+            },
+          ],
+        },
+        {
+          f: [
+            {
+              v: "Alice Johnson",
+            },
+            {
+              v: "35",
+            },
+            {
+              v: "Chicago",
+            },
+            {
+              v: "alice.johnson@example.com",
+            },
+          ],
+        },
+      ],
+      totalBytesProcessed: "123456",
+      jobComplete: true,
+      cacheHit: false,
+    };
+
 
     const token =
       "ya29.a0AfB_byCNzWIyIhNKDyrLGfHORgFiEZsP7RExSxefVd09rAQewdAL3vIw1ZPCM8pfqrY3kMgau7EO2qhvmuuoYHwuqyaFaPJU3wrvHihOKuwttB0FjRvdo6WYSE187wEzye7uYXiLA_CJratHlMUvwR3evWRFWL56QlTx-Ng-nI9vl2QeaCgYKAZgSARISFQHsvYlsuaDbXuDRZetLnEUElHPk1A0183";
 
     try {
-      const url = `https://bigquery.googleapis.com/bigquery/v2/projects/${projectId}/datasets/${datasetId}`;
-      const response = await axios.get(url, {
-        headers: {
-          // Authorization: `Bearer ${realToken}`,
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // const url = `https://bigquery.googleapis.com/bigquery/v2/projects/${projectId}/datasets/${datasetId}`;
+      // const response = await axios.get(url, {
+      //   headers: {
+      //     // Authorization: `Bearer ${realToken}`,
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // });
+      // const dataset = response.data;
+      // const response = {
+      //   advice:
+      //     "The BigQuery get data API is a RESTful API that allows you to retrieve data from BigQuery tables. The API is secure by design, and Google takes security very seriously. However, there are some security concerns that you should be aware of when using the API.One concern is that the API requires that you authenticate with a Google Cloud Platform project. This means that anyone who has access to your project's credentials can use the API to access your data. Therefore, it is important to keep your project's credentials secure.Another concern is that the API allows you to retrieve data from any table in your project. This means that if you have a table that contains sensitive data, anyone who has access to your project's credentials could use the API to retrieve that data. Therefore, it is important to make sure that you only store sensitive data in tables that are protected with access controls.Finally, the API allows you to download data in a variety of formats, including CSV, JSON, and Avro. This means that if you download data in a format that is not encrypted, anyone who intercepts the download could view your data. Therefore, it is important to only download data in formats that are encrypted.Overall, the BigQuery get data API is a secure API that allows you to retrieve data from BigQuery tables. However, there are some security concerns that you should be aware of when using the API. These concerns include the need to keep your project's credentials secure, the need to protect sensitive data with access controls, and the need to only download data in encrypted formats.",
+      // };
+      const response = r;
       console.log("!!!!! response: ", response);
-      const dataset = response.data;
-      res.status(200).json({ dataset });
+      res.status(200).json({ response });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
